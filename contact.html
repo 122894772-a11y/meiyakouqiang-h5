@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预约咨询 - 芽美口腔</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-blue: #00AEEF;
+            --primary-blue-light: #4DD0E1;
+            --bg-dark: #0A0E1A;
+            --bg-card: #111827;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --accent-gold: #F5A623;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-focus: rgba(0, 174, 239, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-light) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo-icon::before {
+            content: '';
+            width: 18px;
+            height: 18px;
+            border: 3px solid white;
+            border-radius: 50% 50% 0 0;
+            border-bottom: none;
+            position: absolute;
+            top: 6px;
+        }
+
+        .logo-icon::after {
+            content: '';
+            width: 14px;
+            height: 7px;
+            border: 2px solid white;
+            border-radius: 0 0 7px 7px;
+            border-top: none;
+            position: absolute;
+            bottom: 8px;
+        }
+
+        .logo-text {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary-blue);
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .form-subtitle {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--primary-blue);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .form-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'Noto Sans SC', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--border-focus);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-input.error {
+            border-color: #EF4444;
+        }
+
+        .error-message {
+            color: #EF4444;
+            font-size: 12px;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .form-radio-group {
+            display: flex;
+            gap: 24px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .radio-item:hover {
+            border-color: rgba(0, 174, 239, 0.3);
+        }
+
+        .radio-item.selected {
+            border-color: var(--primary-blue);
+            background: rgba(0, 174, 239, 0.1);
+        }
+
+        .radio-item input[type="radio"] {
+            display: none;
+        }
+
+        .radio-check {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-muted);
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .radio-item.selected .radio-check {
+            border-color: var(--primary-blue);
+        }
+
+        .radio-item.selected .radio-check::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+        }
+
+        .radio-label {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .radio-item.selected .radio-label {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-light) 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 174, 239, 0.3);
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0, 174, 239, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .privacy-note {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .privacy-note a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .privacy-note a:hover {
+            text-decoration: underline;
+        }
+
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .success-modal.show {
+            display: flex;
+        }
+
+        .success-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 48px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: #22C55E;
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .success-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .btn-confirm {
+            display: inline-block;
+            padding: 14px 48px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-light) 100%);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .form-card {
+                padding: 24px;
+            }
+
+            .form-title {
+                font-size: 28px;
+            }
+
+            .form-radio-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <span class="logo-text">芽美口腔</span>
+            </div>
+            <a href="index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5m0 0l7-7m-7 7l7 7"/>
+                </svg>
+                返回
+            </a>
+        </header>
+
+        <main class="main-content">
+            <div class="form-header">
+                <p class="form-subtitle">Reservation</p>
+                <h1 class="form-title">预约咨询</h1>
+                <p class="form-desc">填写您的信息，我们的专业顾问将尽快与您联系</p>
+            </div>
+
+            <form id="contactForm" class="form-card">
+                <div class="form-group">
+                    <label class="form-label">姓名 *</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        class="form-input" 
+                        placeholder="请输入您的姓名"
+                        required
+                    >
+                    <span class="error-message">请输入有效的姓名</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">手机号码 *</label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        class="form-input" 
+                        placeholder="请输入您的手机号码"
+                        required
+                    >
+                    <span class="error-message">请输入有效的手机号码</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">咨询项目</label>
+                    <div class="form-radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="service" value="orthodontics" checked>
+                            <span class="radio-check"></span>
+                            <span class="radio-label">正畸咨询</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="service" value="cleaning">
+                            <span class="radio-check"></span>
+                            <span class="radio-label">洁牙服务</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">提交预约</button>
+
+                <p class="privacy-note">
+                    提交即表示您同意我们的<a href="#">隐私政策</a>和<a href="#">服务条款</a>
+                </p>
+            </form>
+        </main>
+    </div>
+
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h2 class="success-title">预约成功</h2>
+            <p class="success-desc">感谢您的预约，我们的专业顾问将在24小时内与您联系，请保持手机畅通</p>
+            <a href="index.html" class="btn-confirm">确定</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('contactForm');
+        const successModal = document.getElementById('successModal');
+        const radioItems = document.querySelectorAll('.radio-item');
+        const submitBtn = document.querySelector('.btn-submit');
+
+        const FEISHU_WEBHOOK_URL = 'https://open.feishu.cn/open-apis/bot/v2/hook/fa7c25e9-8caf-4c6c-a398-6360519361b3';
+
+        radioItems.forEach(item => {
+            item.addEventListener('click', () => {
+                radioItems.forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+            });
+        });
+
+        async function sendToFeishu(data) {
+            const message = {
+                msg_type: 'interactive',
+                card: {
+                    config: {
+                        wide_screen_mode: true
+                    },
+                    elements: [
+                        {
+                            tag: 'div',
+                            text: {
+                                tag: 'lark_md',
+                                content: `**📋 芽美口腔 - 新预约通知**\n━━━━━━━━━━━━━━━━\n\n**👤 姓名：** ${data.name}\n\n**📞 手机号码：** ${data.phone}\n\n**🏥 咨询项目：** ${data.service}\n\n**⏰ 预约时间：** ${new Date().toLocaleString('zh-CN', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'})}\n\n━━━━━━━━━━━━━━━━\n\n*请及时跟进处理*`
+                            }
+                        }
+                    ],
+                    header: {
+                        template: 'blue',
+                        title: {
+                            tag: 'plain_text',
+                            content: '🌟 新的客户预约'
+                        }
+                    }
+                }
+            };
+
+            try {
+                const response = await fetch(FEISHU_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(message)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to send to Feishu');
+                }
+                return true;
+            } catch (error) {
+                console.error('Feishu notification error:', error);
+                return false;
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            let isValid = true;
+            const name = document.getElementById('name');
+            const phone = document.getElementById('phone');
+            const serviceRadios = document.querySelectorAll('input[name="service"]');
+            let selectedService = '正畸咨询';
+
+            serviceRadios.forEach(radio => {
+                if (radio.checked) {
+                    selectedService = radio.value === 'orthodontics' ? '正畸咨询' : '洁牙服务';
+                }
+            });
+
+            document.querySelectorAll('.form-group').forEach(group => group.classList.remove('error'));
+
+            if (!name.value.trim() || name.value.length < 2) {
+                name.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            const phoneRegex = /^1[3-9]\d{9}$/;
+            if (!phoneRegex.test(phone.value)) {
+                phone.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            if (isValid) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = '提交中...';
+
+                const formData = {
+                    name: name.value.trim(),
+                    phone: phone.value.trim(),
+                    service: selectedService,
+                    timestamp: new Date().toISOString()
+                };
+
+                const sent = await sendToFeishu(formData);
+
+                if (sent) {
+                    successModal.classList.add('show');
+                } else {
+                    alert('提交成功，但通知发送失败。请联系客服。');
+                    successModal.classList.add('show');
+                }
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = '提交预约';
+            }
+        });
+    </script>
+</body>
+</html>
